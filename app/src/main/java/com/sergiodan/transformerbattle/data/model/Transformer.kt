@@ -16,3 +16,18 @@ data class Transformer(
     @SerializedName("skill") val skill: Int = 0,
     @SerializedName("team_icon") val teamIcon: String
 )
+
+fun Transformer.toMap(): Map<String, Any> {
+    return mapOf("id" to id,
+    "name" to name,
+    "team" to team,
+    "strength" to strength,
+    "intelligence" to intelligence,
+    "speed" to speed,
+    "endurance" to endurance,
+    "rank" to rank,
+    "courage" to courage,
+    "firepower" to firepower,
+    "skill" to skill,
+    "team_icon" to teamIcon)
+}
