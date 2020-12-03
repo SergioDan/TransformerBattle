@@ -1,5 +1,7 @@
 package com.sergiodan.transformerbattle.data.services
 
+import com.sergiodan.transformerbattle.data.model.Transformer
+import retrofit2.Response
 import retrofit2.http.*
 
 /**
@@ -10,19 +12,22 @@ import retrofit2.http.*
 interface TransformerService {
 
     @POST("/transformers")
-    suspend fun createTransformer(@Body transformerParameters: Map<String, @JvmSuppressWildcards Any>)
+    suspend fun createTransformer(@Body transformerParameters: Map<String, @JvmSuppressWildcards Any>): Response<Transformer>
 
     @GET("/transformers")
-    suspend fun getTransformers()
+    suspend fun getTransformers(): Response<List<Transformer>>
+
+    @GET("/transformers/{transformerId}")
+    suspend fun getTransformer(@Path("transformerId") transformerId: String): Response<List<Transformer>>
 
     @PUT("/transformers")
-    suspend fun updateTransformer(@Body transformerParameters: Map<String, @JvmSuppressWildcards Any>)
+    suspend fun updateTransformer(@Body transformerParameters: Map<String, @JvmSuppressWildcards Any>): Response<Transformer>
 
     @DELETE("/transformers/{transformerId}")
     suspend fun deleteTransformer(@Path("transformerId") transformerId: String)
 
     @GET("/allspark")
-    suspend fun requestToken()
+    suspend fun requestToken(): Response<String>
 
     companion object {
         const val END_POINT = "https://transformers-api.firebaseapp.com"
