@@ -1,4 +1,4 @@
-package com.sergiodan.transformerbattle
+package com.sergiodan.transformerbattle.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,12 +20,12 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
     private val parentJob = SupervisorJob()
     private val scope = CoroutineScope(dispatcherProvider.computation + parentJob)
 
-    fun getTransformers(): LiveData<List<Transformer>> {
+    fun getTransformers(): MutableLiveData<List<Transformer>> {
         val transformersLiveData: MutableLiveData<List<Transformer>> = MutableLiveData()
         scope.launch {
             when(val result = transformerRepository.getTransformers()) {
                 is Result.Success -> {
-                    transformersLiveData.postValue(result.data)
+                    transformersLiveData.value = result.data
                 }
                 is Result.Error -> {
                     e(result.exception){"Error getting the data."}
