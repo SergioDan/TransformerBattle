@@ -13,27 +13,24 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Man-in-the-middle for handling the requests to the external source
+ * Man-in-the-middle class for handling the requests to the external source
  */
 class DataManager @Inject constructor(private val transformerRepository: TransformersRepository,
                                          private val dispatcherProvider: CoroutinesThreadProvider) {
     private val parentJob = SupervisorJob()
     private val scope = CoroutineScope(dispatcherProvider.computation + parentJob)
 
-    private val transformersLiveData: MutableLiveData<List<Transformer>> = MutableLiveData()
-
     fun getTransformers(): LiveData<List<Transformer>> {
+        val transformersLiveData: MutableLiveData<List<Transformer>> = MutableLiveData()
         scope.launch {
-            val result = transformerRepository.getTransformers()
-            when(result) {
+            when(val result = transformerRepository.getTransformers()) {
                 is Result.Success -> {
                     transformersLiveData.postValue(result.data)
                 }
-                is Result.Error ->  {
-                    e(result.exception){"no vi ni el ponque"}
+                is Result.Error -> {
+                    e(result.exception){"Error getting the data."}
                 }
             }
-
         }
         return transformersLiveData
     }
