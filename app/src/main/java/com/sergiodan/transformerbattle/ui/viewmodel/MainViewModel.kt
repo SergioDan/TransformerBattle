@@ -18,6 +18,10 @@ class MainViewModel @Inject internal constructor(): ViewModel() {
 
     val transformers: LiveData<List<Transformer>> = _transformersLiveData
 
+    fun retrieveToken() {
+        dataManager.getToken()
+    }
+
     fun getTransformers() {
         _transformersLiveData = dataManager.getTransformers()
     }
