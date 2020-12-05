@@ -6,9 +6,11 @@ import com.sergiodan.transformerbattle.data.model.Transformer
 
 class TransformersRepository(private val dataSource: TransformersRemoteDataSource) {
 
-    suspend fun getTransformers(transformerId: String? = null): Result<List<Transformer>> =
-        dataSource.getTransformers(transformerId)
+    suspend fun getTransformers(authorizationToken: String, transformerId: String? = null): Result<List<Transformer>> =
+        dataSource.getTransformers(authorizationToken, transformerId)
 
-    suspend fun createTransformer(transformer: Transformer): Result<Transformer> =
-        dataSource.createTransformer(transformer)
+    suspend fun createTransformer(authorizationToken: String, transformer: Transformer): Result<Transformer> =
+        dataSource.createTransformer(authorizationToken, transformer)
+
+    suspend fun retrieveToken(): Result<String> = Result.Success("")
 }
