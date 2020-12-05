@@ -1,5 +1,6 @@
 package com.sergiodan.transformerbattle.di
 
+import android.content.SharedPreferences
 import com.sergiodan.transformerbattle.data.DataManager
 import com.sergiodan.transformerbattle.data.datasources.TransformersRemoteDataSource
 import com.sergiodan.transformerbattle.data.dispatcher.CoroutinesThreadProvider
@@ -32,8 +33,9 @@ class DataManagerModule {
     @Singleton
     fun provideDataManager(
         repository: TransformersRepository,
+        sharedPreferences: SharedPreferences,
         coroutinesThreadProvider: CoroutinesThreadProvider
     ): DataManager {
-        return DataManager(repository, coroutinesThreadProvider)
+        return DataManager(repository, sharedPreferences, coroutinesThreadProvider)
     }
 }
