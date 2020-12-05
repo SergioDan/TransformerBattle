@@ -1,6 +1,7 @@
 package com.sergiodan.transformerbattle.data.services
 
 import com.sergiodan.transformerbattle.data.model.Transformer
+import com.sergiodan.transformerbattle.data.model.TransformersList
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -12,19 +13,24 @@ import retrofit2.http.*
 interface TransformerService {
 
     @POST("/transformers")
-    suspend fun createTransformer(@Body transformerParameters: Map<String, @JvmSuppressWildcards Any>): Response<Transformer>
+    suspend fun createTransformer(
+        @Header("Authorization") authorizationToken: String,
+        @Body transformerParameters: Map<String, @JvmSuppressWildcards Any>): Response<Transformer>
 
     @GET("/transformers")
-    suspend fun getTransformers(): Response<List<Transformer>>
+    suspend fun getTransformers(@Header("Authorization") authorizationToken: String): Response<TransformersList>
 
     @GET("/transformers/{transformerId}")
-    suspend fun getTransformer(@Path("transformerId") transformerId: String): Response<List<Transformer>>
+    suspend fun getTransformer(@Header("Authorization") authorizationToken: String,
+                               @Path("transformerId") transformerId: String): Response<TransformersList>
 
     @PUT("/transformers")
-    suspend fun updateTransformer(@Body transformerParameters: Map<String, @JvmSuppressWildcards Any>): Response<Transformer>
+    suspend fun updateTransformer(@Header("Authorization") authorizationToken: String,
+                                  @Body transformerParameters: Map<String, @JvmSuppressWildcards Any>): Response<Transformer>
 
     @DELETE("/transformers/{transformerId}")
-    suspend fun deleteTransformer(@Path("transformerId") transformerId: String)
+    suspend fun deleteTransformer(@Header("Authorization") authorizationToken: String,
+        @Path("transformerId") transformerId: String)
 
     @GET("/allspark")
     suspend fun requestToken(): Response<String>

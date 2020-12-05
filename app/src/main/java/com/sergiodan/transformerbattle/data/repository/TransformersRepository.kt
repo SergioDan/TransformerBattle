@@ -12,5 +12,6 @@ class TransformersRepository(private val dataSource: TransformersRemoteDataSourc
     suspend fun createTransformer(authorizationToken: String, transformer: Transformer): Result<Transformer> =
         dataSource.createTransformer(authorizationToken, transformer)
 
-    suspend fun retrieveToken(): Result<String> = Result.Success("")
+    suspend fun retrieveToken(): Result<String> =
+        dataSource.retrieveToken()
 }
