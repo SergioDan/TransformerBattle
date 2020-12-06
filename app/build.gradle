@@ -20,6 +20,7 @@ android {
 
     buildFeatures {
         dataBinding true
+        viewBinding true
     }
 
     buildTypes {
@@ -91,4 +92,11 @@ dependencies {
     // timber
     implementation "com.jakewharton.timber:timber:${versions.timber}"
     implementation "com.github.ajalt:timberkt:${versions.timberKt}"
+
+    //recyclerview
+    implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
+
+    // navigation - android components
+    implementation "androidx.navigation:navigation-fragment:${versions.navigation}"
+    implementation "androidx.navigation:navigation-ui:${versions.navigation}"
 }

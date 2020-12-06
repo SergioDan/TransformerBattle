@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">TransformerBattle</string>
+
+    <string name="alliance">Alliance</string>
+    <string name="autobot">Autobot</string>
+    <string name="decepticon">Decepticon</string>
+    <string name="nameHint">Transformer Name</string>
+    <string name="strength">Strength</string>
+    <string name="intelligence">Intelligence</string>
+    <string name="speed">Speed</string>
+    <string name="endurance">Endurance</string>
+    <string name="rank">Rank</string>
+    <string name="courage">Courage</string>
+    <string name="firepower">Firepower</string>
+    <string name="skill">Skill</string>
+
+    <string name="build">Build</string>
+
 </resources>
