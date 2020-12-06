@@ -19,20 +19,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
-    <LinearLayout
+    <LinearLayout android:id="@+id/ll_fab_brawl"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/brawl_button_height"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/general_margin"
         android:layout_marginBottom="@dimen/general_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/fab_background_shape"
         >
         <ImageView
             android:layout_width="@dimen/brawl_button_height"
             android:layout_height="@dimen/brawl_button_height"
             android:src="@drawable/ic_logo"
             android:scaleType="fitXY"
-            android:contentDescription="@string/brawl" />
+            android:contentDescription="@string/brawl"
+            android:layout_marginStart="@dimen/fab_title_margin"
+            android:layout_marginTop="@dimen/fab_title_margin"
+            android:layout_marginBottom="@dimen/fab_title_margin"
+            />
     <TextView
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
