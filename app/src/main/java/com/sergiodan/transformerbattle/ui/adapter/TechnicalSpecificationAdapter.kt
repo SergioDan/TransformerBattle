@@ -16,13 +16,15 @@ class TechnicalSpecificationAdapter(var list: List<TechnicalSpecification>,
         viewType: Int
     ): TechnicalSpecificationViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return TechnicalSpecificationViewHolder(inflater, parent)
+        return TechnicalSpecificationViewHolder(inflater, parent).apply {
+            this.onChangeCallback = onSliderChangeCallback
+        }
     }
 
     override fun onBindViewHolder(holder: TechnicalSpecificationViewHolder,
                                   position: Int) {
         val specification = list[position]
-        holder.bind(specification, onSliderChangeCallback)
+        holder.bind(specification)
     }
 
     override fun getItemCount(): Int = list.size

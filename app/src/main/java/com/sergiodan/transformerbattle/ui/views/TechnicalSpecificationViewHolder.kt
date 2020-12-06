@@ -20,23 +20,32 @@ class SeekListener(private val specId: Int, private val onChangeCallback: OnSlid
     override fun onStopTrackingTouch(p0: SeekBar?) { }
 }
 
-class TechnicalSpecificationViewHolder(val inflater: LayoutInflater, val parent: ViewGroup):
+class TechnicalSpecificationViewHolder(inflater: LayoutInflater,parent: ViewGroup):
         RecyclerView.ViewHolder(inflater.inflate(R.layout.view_tech_spec, parent, false)) {
 
     private var specificationNameTextView: TextView
     private var scoreSlider: SeekBar
+    private var scoreTextView: TextView
+
+    var onChangeCallback: OnSliderChangeCallback? = null
 
     init {
         specificationNameTextView = itemView.findViewById(R.id.tv_spec_name)
         scoreSlider = itemView.findViewById(R.id.sb_score)
+        scoreTextView = itemView.findViewById(R.id.tv_score)
     }
 
-    fun bind(techSpec: TechnicalSpecification,
-             onChangeCallback: OnSliderChangeCallback) {
+    fun bind(techSpec: TechnicalSpecification) {
 
         specificationNameTextView.text = itemView.context.getString(techSpec.name)
         scoreSlider.progress = techSpec.score
+        scoreTextView.text = "${techSpec.score}"
 
-        scoreSlider.setOnSeekBarChangeListener(SeekListener(techSpec.name, onChangeCallback))
+        scoreSlider.setOnSeekBarChangeListener(SeekListener(techSpec.name, this::onSeekBarChange))
+    }
+
+    private fun onSeekBarChange(specId: Int, newValue: Int) {
+        scoreTextView.text = "$newValue"
+        onChangeCallback?.invoke(specId, newValue)
     }
 }
