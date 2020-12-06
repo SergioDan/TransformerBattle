@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <!-- Toolbar should always be within an AppBarLayout which provides the background. -->
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="Widget.Toolbar.WithCloseButton" parent="Widget.Toolbar">
+        <item name="navigationContentDescription">@null</item>
+        <item name="navigationIcon">@drawable/ic_close</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_close</item>
+        <item name="tint">?attr/colorPrimary</item>
+        <item name="background">?attr/colorOnPrimary</item>
+    </style>
+</resources>
