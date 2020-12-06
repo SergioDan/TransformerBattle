@@ -20,7 +20,8 @@ buildscript {
             'okhttp'             : '4.0.0',
             'retrofit'           : '2.6.0',
             'timber'             : '4.7.0',
-            'timberKt'           : '1.5.1'
+            'timberKt'           : '1.5.1',
+            'navigation'         : '2.3.2',
     ]
     ext.names = [
             'applicationId': 'com.sergiodan.transformerbattle'
