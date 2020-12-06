@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sergiodan.transformerbattle.R
 import com.sergiodan.transformerbattle.databinding.FragmentCreateTransformerBinding
@@ -11,7 +12,7 @@ import com.sergiodan.transformerbattle.ui.adapter.TechnicalSpecificationAdapter
 import com.sergiodan.transformerbattle.ui.views.TechnicalSpecification
 import dagger.android.support.DaggerFragment
 
-class CreateTransformerFragment: DaggerFragment() {
+class CreateTransformerFragment: Fragment() {
 
     private lateinit var binding: FragmentCreateTransformerBinding
     private lateinit var specificationsAdapter: TechnicalSpecificationAdapter

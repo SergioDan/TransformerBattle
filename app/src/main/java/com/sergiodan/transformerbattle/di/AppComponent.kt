@@ -11,10 +11,11 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AndroidSupportInjectionModule::class,
     AppModule::class,
-    ActivityBuildersModule::class,
+//    ActivityBuildersModule::class,
     ActivityModule::class,
     ServicesModule::class,
-    DataManagerModule::class
+    DataManagerModule::class,
+    FragmentBuildersModule::class
 ])
 interface AppComponent: AndroidInjector<TransformerBattleApplication> {
     @Component.Builder
