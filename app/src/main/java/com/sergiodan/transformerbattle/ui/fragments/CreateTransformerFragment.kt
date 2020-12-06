@@ -7,12 +7,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sergiodan.transformerbattle.R
+import com.sergiodan.transformerbattle.data.model.Transformer
+import com.sergiodan.transformerbattle.data.model.specsToTransformer
 import com.sergiodan.transformerbattle.databinding.FragmentCreateTransformerBinding
 import com.sergiodan.transformerbattle.ui.adapter.TechnicalSpecificationAdapter
+import com.sergiodan.transformerbattle.ui.viewmodel.CreateTransformerViewModel
 import com.sergiodan.transformerbattle.ui.views.TechnicalSpecification
 import dagger.android.support.DaggerFragment
+import java.util.*
+import javax.inject.Inject
 
-class CreateTransformerFragment: Fragment() {
+class CreateTransformerFragment: DaggerFragment() {
+
+    @Inject
+    lateinit var viewModel: CreateTransformerViewModel
 
     private lateinit var binding: FragmentCreateTransformerBinding
     private lateinit var specificationsAdapter: TechnicalSpecificationAdapter
@@ -29,6 +37,19 @@ class CreateTransformerFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
+        binding.btCreate.setOnClickListener {
+            val transformer = transformSpecListToClass().copy(
+                name = binding.etName.text.toString(),
+                team = if (binding.rbAutobot.isChecked) {
+                    "A"
+                } else if (binding.rbDecepticon.isChecked) {
+                    "D"
+                } else {
+                    "D"
+                }
+            )
+            viewModel.createTransformer(transformer)
+        }
     }
 
     private fun setRecyclerView() {
@@ -46,6 +67,16 @@ class CreateTransformerFragment: Fragment() {
                 it
             }
         }
+    }
+
+    private fun transformSpecListToClass(): Transformer {
+        val specsMap = mutableMapOf<String, Int>()
+
+        list.forEach {
+            specsMap[requireContext().getString(it.name)] = it.score
+        }
+
+        return specsMap.specsToTransformer()
     }
 
     companion object {
