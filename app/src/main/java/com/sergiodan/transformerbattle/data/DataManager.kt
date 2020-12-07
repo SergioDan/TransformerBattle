@@ -10,6 +10,7 @@ import com.sergiodan.transformerbattle.data.model.Result
 import com.sergiodan.transformerbattle.data.model.Transformer
 import com.sergiodan.transformerbattle.data.repository.TransformersRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,38 +33,37 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
             field = value
         }
 
-    fun getTransformers(): MutableLiveData<List<Transformer>> {
-        val transformersLiveData: MutableLiveData<List<Transformer>> = MutableLiveData()
-        scope.launch {
-            authToken?.let {
-                when (val result = transformerRepository.getTransformers(it)) {
-                    is Result.Success -> {
-                        transformersLiveData.postValue(result.data)
-                    }
-                    is Result.Error -> {
-                        e(result.exception) { "Error getting the data." }
-                    }
+    suspend fun getTransformers(): List<Transformer> {
+        return getToken()?.let {
+            return when (val result = transformerRepository.getTransformers(it)) {
+                is Result.Success -> {
+                    result.data
+                }
+                is Result.Error -> {
+                    e(result.exception) { "Error getting the data." }
+                    listOf()
                 }
             }
+        } ?: run {
+            listOf<Transformer>()
         }
-        return transformersLiveData
     }
 
-    fun getToken() {
-        scope.launch {
-            authToken?.let {
-                d { "nothing to do here" }
-            } ?: run {
-                when (val result = transformerRepository.retrieveToken()) {
-                    is Result.Success -> {
-                        authToken = result.data
-                    }
-                    is Result.Error -> {
-                        e(result.exception) { "Error retrieving token" }
-                    }
+    suspend fun getToken(): String? {
+        authToken?.let {
+            d { "nothing to do here" }
+        } ?: run {
+            when (val result = transformerRepository.retrieveToken()) {
+                is Result.Success -> {
+                    authToken = result.data
+                }
+                is Result.Error -> {
+                    e(result.exception) { "Error retrieving token" }
                 }
             }
         }
+
+        return authToken
     }
 
     fun createTransformer(transformer: Transformer): MutableLiveData<Transformer> {
@@ -71,7 +71,7 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
             it.value = null
         }
         scope.launch {
-            authToken?.let {
+            getToken()?.let {
                 when (val result = transformerRepository.createTransformer(it, transformer)) {
                     is Result.Success -> {
                         liveData.postValue(result.data)

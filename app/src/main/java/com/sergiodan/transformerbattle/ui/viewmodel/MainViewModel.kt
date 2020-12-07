@@ -3,8 +3,10 @@ package com.sergiodan.transformerbattle.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sergiodan.transformerbattle.data.DataManager
 import com.sergiodan.transformerbattle.data.model.Transformer
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject internal constructor(): ViewModel() {
@@ -18,12 +20,11 @@ class MainViewModel @Inject internal constructor(): ViewModel() {
 
     val transformers: LiveData<List<Transformer>> = _transformersLiveData
 
-    fun retrieveToken() {
-        dataManager.getToken()
-    }
-
     fun getTransformers() {
-        _transformersLiveData = dataManager.getTransformers()
+        viewModelScope.launch {
+            val result = dataManager.getTransformers()
+            _transformersLiveData.postValue(result)
+        }
     }
 
 }

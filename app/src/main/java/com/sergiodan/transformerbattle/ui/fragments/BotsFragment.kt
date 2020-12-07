@@ -21,7 +21,7 @@ class BotsFragment: DaggerFragment() {
     @Inject
     lateinit var mainViewModel: MainViewModel
 
-    private lateinit var adapter: TransformersAdapter
+    private var adapter: TransformersAdapter = TransformersAdapter(listOf())
     private lateinit var binding: FragmentBotsBinding
 
     override fun onCreateView(
@@ -31,6 +31,8 @@ class BotsFragment: DaggerFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentBotsBinding.inflate(inflater, container, false)
+
+        startRequest()
 
         binding.llFabBrawl.setOnClickListener {
             findNavController()
@@ -43,13 +45,11 @@ class BotsFragment: DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
-        startRequest()
     }
 
     private fun setRecyclerView() {
         val recyclerView = binding.rvBots
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        adapter = TransformersAdapter(listOf())
         recyclerView.adapter = adapter
     }
 

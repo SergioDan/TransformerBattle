@@ -10,7 +10,7 @@ import com.sergiodan.transformerbattle.R
 import com.sergiodan.transformerbattle.data.model.Transformer
 
 class TransformerViewHolder(inflater: LayoutInflater, parent: ViewGroup):
-    RecyclerView.ViewHolder(inflater.inflate(R.layout.view_holder_transformer)) {
+    RecyclerView.ViewHolder(inflater.inflate(R.layout.view_holder_transformer, parent, false)) {
 
     private var nameTextView: TextView
     private var imageTeamView: ImageView
@@ -22,7 +22,10 @@ class TransformerViewHolder(inflater: LayoutInflater, parent: ViewGroup):
 
     fun bind(transformer: Transformer) {
         nameTextView.text = transformer.name
-        Glide.get(itemView.context)
+        Glide
+            .with(itemView.context)
+            .load(transformer.teamIcon)
+            .into(imageTeamView)
         
     }
 
