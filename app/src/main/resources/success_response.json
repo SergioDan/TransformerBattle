@@ -1,0 +1,103 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "courage": 10,
+      "endurance": 10,
+      "firepower": 8,
+      "id": "-MNuOKXsEw-0oMLmC7S9",
+      "intelligence": 10,
+      "name": "Optimus Prime",
+      "rank": 10,
+      "skill": 10,
+      "speed": 8,
+      "strength": 10,
+      "team": "A",
+      "team_icon": "https://tfwiki.net/mediawiki/images2/archive/f/fe/20110410191732%21Symbol_autobot_reg.png"
+    },
+    {
+      "courage": 9,
+      "endurance": 5,
+      "firepower": 6,
+      "id": "-MNuOaCKfzbnRUIalq2K",
+      "intelligence": 5,
+      "name": "Outback",
+      "rank": 4,
+      "skill": 6,
+      "speed": 6,
+      "strength": 4,
+      "team": "A",
+      "team_icon": "https://tfwiki.net/mediawiki/images2/archive/f/fe/20110410191732%21Symbol_autobot_reg.png"
+    },
+    {
+      "courage": 8,
+      "endurance": 7,
+      "firepower": 8,
+      "id": "-MNuOn3ptUG_ICGoi-qt",
+      "intelligence": 10,
+      "name": "Perceptor",
+      "rank": 7,
+      "skill": 10,
+      "speed": 2,
+      "strength": 7,
+      "team": "A",
+      "team_icon": "https://tfwiki.net/mediawiki/images2/archive/f/fe/20110410191732%21Symbol_autobot_reg.png"
+    },
+    {
+      "courage": 10,
+      "endurance": 7,
+      "firepower": 1,
+      "id": "-MNuP2YetbHYXctTDqr8",
+      "intelligence": 8,
+      "name": "Bumblebee",
+      "rank": 7,
+      "skill": 7,
+      "speed": 4,
+      "strength": 2,
+      "team": "A",
+      "team_icon": "https://tfwiki.net/mediawiki/images2/archive/f/fe/20110410191732%21Symbol_autobot_reg.png"
+    },
+    {
+      "courage": 9,
+      "endurance": 8,
+      "firepower": 10,
+      "id": "-MNuPF33ER3_UuRxV9Nj",
+      "intelligence": 10,
+      "name": "Megatron",
+      "rank": 10,
+      "skill": 9,
+      "speed": 4,
+      "strength": 10,
+      "team": "D",
+      "team_icon": "https://tfwiki.net/mediawiki/images2/archive/8/8d/20110410191659%21Symbol_decept_reg.png"
+    },
+    {
+      "courage": 5,
+      "endurance": 3,
+      "firepower": 9,
+      "id": "-MNuPcx0kcyITBT7OD6c",
+      "intelligence": 8,
+      "name": "Blastoff",
+      "rank": 5,
+      "skill": 10,
+      "speed": 10,
+      "strength": 3,
+      "team": "D",
+      "team_icon": "https://tfwiki.net/mediawiki/images2/archive/8/8d/20110410191659%21Symbol_decept_reg.png"
+    },
+    {
+      "courage": 8,
+      "endurance": 9,
+      "firepower": 6,
+      "id": "-MNuPnqe_2Qu2-UgorS0",
+      "intelligence": 3,
+      "name": "Bonecrusher",
+      "rank": 4,
+      "skill": 6,
+      "speed": 2,
+      "strength": 9,
+      "team": "D",
+      "team_icon": "https://tfwiki.net/mediawiki/images2/archive/8/8d/20110410191659%21Symbol_decept_reg.png"
+    }
+  ]
+}

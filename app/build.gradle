@@ -58,6 +58,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     testImplementation "androidx.arch.core:core-testing:${versions.androidxArch}"
     testImplementation "com.squareup.retrofit2:retrofit-mock:${versions.retrofit}"
+    testImplementation "com.squareup.okhttp3:mockwebserver:${versions.okhttp}"
+    testImplementation "org.mockito:mockito-core:3.3.3"
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
 
     //dagger
     implementation "com.google.dagger:dagger:${versions.dagger}"
