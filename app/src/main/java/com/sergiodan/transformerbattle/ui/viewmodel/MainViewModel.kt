@@ -26,5 +26,4 @@ class MainViewModel @Inject internal constructor(): ViewModel() {
             _transformersLiveData.postValue(result)
         }
     }
-
 }
