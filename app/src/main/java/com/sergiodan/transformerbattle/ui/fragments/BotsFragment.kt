@@ -21,7 +21,8 @@ class BotsFragment: DaggerFragment() {
     @Inject
     lateinit var mainViewModel: MainViewModel
 
-    private var adapter: TransformersAdapter = TransformersAdapter(listOf())
+    private var autobotsAdapter: TransformersAdapter = TransformersAdapter(listOf())
+    private var decepticonsAdapter: TransformersAdapter = TransformersAdapter(listOf())
     private lateinit var binding: FragmentBotsBinding
 
     override fun onCreateView(
@@ -48,18 +49,25 @@ class BotsFragment: DaggerFragment() {
     }
 
     private fun setRecyclerView() {
-        val recyclerView = binding.rvBots
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = adapter
+        val autoRecyclerView = binding.rvAutobots
+        autoRecyclerView.layoutManager = LinearLayoutManager(activity)
+        autoRecyclerView.adapter = autobotsAdapter
+
+        val decepticonRecyclerView = binding.rvDecepticons
+        decepticonRecyclerView.layoutManager = LinearLayoutManager(activity)
+        decepticonRecyclerView.adapter = decepticonsAdapter
     }
 
     private fun startRequest() {
         mainViewModel.getTransformers()
-        mainViewModel.transformers.observe(viewLifecycleOwner, Observer {
-            it.forEach {
+        mainViewModel.transformers.observe(viewLifecycleOwner, Observer { list ->
+            list.forEach {
                 d { "Transformer=${it.toMap()}" }
             }
-            adapter.updateList(it)
+            val autobots = list.filter { it.team == "A" }
+            val decepticons = list.filter { it.team == "D" }
+            autobotsAdapter.updateList(autobots)
+            decepticonsAdapter.updateList(decepticons)
         })
     }
 }
