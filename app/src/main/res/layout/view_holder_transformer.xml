@@ -6,9 +6,10 @@
     android:layout_height="wrap_content">
 
     <ImageView android:id="@+id/iv_alliance"
-        android:layout_width="@dimen/team_icon_size"
-        android:layout_height="@dimen/team_icon_size"
+        android:layout_width="@dimen/transformer_team_icon_size"
+        android:layout_height="@dimen/transformer_team_icon_size"
         android:layout_margin="@dimen/general_margin"
+        android:contentDescription="@null"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
