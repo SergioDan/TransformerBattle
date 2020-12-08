@@ -26,7 +26,7 @@ interface TransformerService {
 
     @PUT("/transformers")
     suspend fun updateTransformer(@Header("Authorization") authorizationToken: String,
-                                  @Body transformerParameters: Map<String, @JvmSuppressWildcards Any>): Response<Transformer>
+                                  @Body transformerParameters: Map<String, @JvmSuppressWildcards Any?>): Response<Transformer>
 
     @DELETE("/transformers/{transformerId}")
     suspend fun deleteTransformer(@Header("Authorization") authorizationToken: String,
