@@ -61,12 +61,10 @@ class CreateTransformerFragment: DaggerFragment() {
         binding.btCreate.setOnClickListener {
             val transformer = transformSpecListToClass().copy(
                 name = binding.etName.text.toString(),
-                team = if (binding.rbAutobot.isChecked) {
-                    "A"
-                } else if (binding.rbDecepticon.isChecked) {
-                    "D"
-                } else {
-                    "D"
+                team = when {
+                    binding.rbAutobot.isChecked -> { "A" }
+                    binding.rbDecepticon.isChecked -> { "D" }
+                    else -> { "" }
                 }
             )
             viewModel.createTransformer(transformer)
