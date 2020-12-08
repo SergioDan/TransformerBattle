@@ -12,4 +12,11 @@
         <item name="tint">?attr/textColor</item>
         <item name="background">?attr/textColor</item>
     </style>
+
+    <style name="Widget.Toolbar.NoIcon" parent="Widget.Toolbar">
+        <item name="navigationContentDescription">@null</item>
+        <item name="tint">?attr/textColor</item>
+        <item name="background">?attr/textColor</item>
+        <item name="android:textColor">?attr/textColor</item>
+    </style>
 </resources>

@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.ajalt.timberkt.d
+import com.sergiodan.transformerbattle.R
 import com.sergiodan.transformerbattle.data.model.toMap
 import com.sergiodan.transformerbattle.databinding.FragmentBotsBinding
 import com.sergiodan.transformerbattle.ui.adapter.TechnicalSpecificationAdapter
 import com.sergiodan.transformerbattle.ui.adapter.TransformersAdapter
+import com.sergiodan.transformerbattle.ui.getColor
 import com.sergiodan.transformerbattle.ui.viewmodel.MainViewModel
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -32,20 +35,23 @@ class BotsFragment: DaggerFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentBotsBinding.inflate(inflater, container, false)
-
         startRequest()
-
-        binding.llFabBrawl.setOnClickListener {
-            findNavController()
-                    .navigate(BotsFragmentDirections.actionFragmentBotsToFragmentCreateTransformer())
-        }
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
+        binding.llFabBrawl.setOnClickListener {
+            Toast.makeText(requireContext(), "Implementation still in progress", Toast.LENGTH_LONG).show()
+        }
+
+        binding.btCreate.setOnClickListener {
+            findNavController()
+                .navigate(BotsFragmentDirections.actionFragmentBotsToFragmentCreateTransformer())
+        }
+
+        binding.toolbar.setTitleTextColor(requireContext().getColor(arrayOf(R.attr.textColor)))
     }
 
     private fun setRecyclerView() {
