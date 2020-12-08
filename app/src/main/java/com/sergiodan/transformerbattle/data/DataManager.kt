@@ -2,7 +2,6 @@ package com.sergiodan.transformerbattle.data
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import androidx.lifecycle.MutableLiveData
 import com.github.ajalt.timberkt.d
 import com.github.ajalt.timberkt.e
 import com.sergiodan.transformerbattle.data.dispatcher.CoroutinesThreadProvider
@@ -12,9 +11,7 @@ import com.sergiodan.transformerbattle.data.model.Transformer
 import com.sergiodan.transformerbattle.data.model.getOverallRating
 import com.sergiodan.transformerbattle.data.repository.TransformersRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.min
@@ -86,8 +83,47 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
         }
     }
 
-    companion object {
+    suspend fun deleteTransformer(transformer: Transformer): Boolean {
+        return getToken()?.let {
+            return when(val result = transformerRepository.deleteTransformer(it, transformer.id ?: "")) {
+                is Result.Success -> {
+                    result.data
+                }
+                is Result.Error -> {
+                    e(result.exception) { "Error creating transformer" }
+                    false
+                }
+            }
+        } ?: run {
+            false
+        }
+    }
 
+    suspend fun updateTransformer(transformer: Transformer): Transformer? {
+        return getToken()?.let {
+            return when(val result = transformerRepository.updateTransformer(it, transformer)) {
+                is Result.Success -> {
+                    result.data
+                }
+                is Result.Error -> {
+                    e(result.exception) { "Error creating transformer" }
+                    null
+                }
+            }
+        } ?: run {
+            null
+        }
+    }
+
+    suspend fun brawlRoutine(autobots: List<Transformer>, decepticons: List<Transformer>): BrawlResult {
+        val brawlResult = brawl(autobots, decepticons)
+        brawlResult.defeated.forEach {
+            deleteTransformer(it)
+        }
+        return brawlResult
+    }
+
+    companion object {
         private fun getDefeatedTransformers(sortedAutobots: List<Transformer>, sortedDecepticons: List<Transformer>): List<Transformer> {
             val min = min(sortedAutobots.size, sortedDecepticons.size)
             val defeated = mutableListOf<Transformer>()
@@ -178,7 +214,7 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
                     BrawlResult(defeated, standing.toList(), AUTOBOT_TEAM_IDENTIFIER)
                 }
                 else -> {
-                    BrawlResult(defeated, listOf<Transformer>(), "")
+                    BrawlResult(defeated, listOf(), "")
                 }
             }
         }
