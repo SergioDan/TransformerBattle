@@ -15,7 +15,7 @@ interface TransformerService {
     @POST("/transformers")
     suspend fun createTransformer(
         @Header("Authorization") authorizationToken: String,
-        @Body transformerParameters: Map<String, @JvmSuppressWildcards Any>): Response<Transformer>
+        @Body transformerParameters: Map<String, @JvmSuppressWildcards Any?>): Response<Transformer>
 
     @GET("/transformers")
     suspend fun getTransformers(@Header("Authorization") authorizationToken: String): Response<TransformersList>
