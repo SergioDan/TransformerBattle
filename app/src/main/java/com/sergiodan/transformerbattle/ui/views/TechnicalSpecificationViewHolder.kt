@@ -13,7 +13,8 @@ data class TechnicalSpecification(val name: Int, val score: Int)
 
 class SeekListener(private val specId: Int, private val onChangeCallback: OnSliderChangeCallback): SeekBar.OnSeekBarChangeListener {
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-        onChangeCallback.invoke(specId, p1)
+        val value = if (p1==0) 1 else p1
+        onChangeCallback.invoke(specId, value)
     }
 
     override fun onStartTrackingTouch(p0: SeekBar?) { }
