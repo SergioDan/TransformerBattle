@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_style_background">
 
     <ImageView android:id="@+id/iv_alliance"
         android:layout_width="@dimen/transformer_team_icon_size"
@@ -27,16 +28,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginStart="@dimen/fab_title_margin"
+        android:layout_marginEnd="@dimen/fab_title_margin"
+        app:layout_constraintTop_toBottomOf="@id/iv_alliance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         >
-
-        <TextView android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            />
-
+        <com.sergiodan.transformerbattle.ui.views.LineChartView
+            android:id="@+id/lcv_chart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/chart_height" />
     </LinearLayout>
 
 
