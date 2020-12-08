@@ -14,4 +14,10 @@ class TransformersRepository(private val dataSource: TransformersRemoteDataSourc
 
     suspend fun retrieveToken(): Result<String> =
         dataSource.retrieveToken()
+
+    suspend fun deleteTransformer(authorizationToken: String, transformerId: String): Result<Boolean> =
+        dataSource.deleteTransformer(authorizationToken, transformerId)
+
+    suspend fun updateTransformer(authorizationToken: String, transformer: Transformer): Result<Transformer> =
+        dataSource.updateTransformer(authorizationToken, transformer)
 }

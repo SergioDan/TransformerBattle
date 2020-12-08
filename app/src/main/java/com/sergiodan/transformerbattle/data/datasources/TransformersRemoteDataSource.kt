@@ -66,6 +66,32 @@ class TransformersRemoteDataSource(private val service: TransformerService) {
         }
     }
 
+    suspend fun deleteTransformer(authorizationToken: String, transformerId: String): Result<Boolean> {
+        return try {
+            service.deleteTransformer(formatHeader(authorizationToken), transformerId)
+            return Result.Success(true)
+        } catch (exception: Exception) {
+            Result.Error(
+                IOException("Error creating the transformer", exception)
+            )
+        }
+    }
+
+    suspend fun updateTransformer(authorizationToken: String, transformer: Transformer): Result<Transformer> {
+        return try {
+            val response = service.updateTransformer(formatHeader(authorizationToken), transformer.toMap())
+            getResultOne(response, onError = {
+                Result.Error(
+                    IOException("Error updating the transformer ${response.code()} ${response.message()}")
+                )
+            })
+        } catch (exception: Exception) {
+            Result.Error(
+                IOException("Error updating the data", exception)
+            )
+        }
+    }
+
     private inline fun getResultString(
         response: Response<String>,
         onError: () -> Result.Error
@@ -106,5 +132,17 @@ class TransformersRemoteDataSource(private val service: TransformerService) {
         return onError.invoke()
     }
 
+    private inline fun getResultBoolean(
+        response: Response<Boolean>,
+        onError: () -> Result.Error
+    ): Result<Boolean> {
+        if (response.isSuccessful) {
+            val body = response.body()
+            if (body != null) {
+                return Result.Success(body)
+            }
+        }
+        return onError.invoke()
+    }
 
 }
