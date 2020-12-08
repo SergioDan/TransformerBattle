@@ -40,9 +40,11 @@ class LineChartView(context: Context, attrs: AttributeSet) : View(context, attrs
 //            PointF(80f, 80f)
 //    )
 
-    fun setCoordinatesAndLabels(yList: Array<Float>, labels: Array<String>) {
+    fun setCoordinatesAndLabels(yList: Array<Float>, labels: Array<Int>) {
         this.yCoordinates = yList
-        this.labels = labels
+        this.labels = labels.map {
+            context.getString(it)
+        }.toTypedArray()
         invalidate()
     }
 

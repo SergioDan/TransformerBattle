@@ -93,3 +93,7 @@ fun Map<String, Int>.specsToTransformer(): Transformer {
         team = ""
     )
 }
+
+fun Transformer.getOverallRating(): Int {
+    return strength + intelligence + speed + endurance + firepower
+}
