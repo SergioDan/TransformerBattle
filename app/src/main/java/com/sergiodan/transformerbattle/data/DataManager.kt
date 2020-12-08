@@ -66,23 +66,20 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
         return authToken
     }
 
-    fun createTransformer(transformer: Transformer): MutableLiveData<Transformer> {
-        val liveData = MutableLiveData<Transformer>().also {
-            it.value = null
-        }
-        scope.launch {
-            getToken()?.let {
-                when (val result = transformerRepository.createTransformer(it, transformer)) {
-                    is Result.Success -> {
-                        liveData.postValue(result.data)
-                    }
-                    is Result.Error -> {
-                        e(result.exception) { "Error creating transformer" }
-                    }
+    suspend fun createTransformer(transformer: Transformer): Transformer? {
+        return getToken()?.let {
+            return when (val result = transformerRepository.createTransformer(it, transformer)) {
+                is Result.Success -> {
+                    result.data
+                }
+                is Result.Error -> {
+                    e(result.exception) { "Error creating transformer" }
+                    null
                 }
             }
+        } ?: run {
+            null
         }
-        return liveData
     }
 
     companion object {

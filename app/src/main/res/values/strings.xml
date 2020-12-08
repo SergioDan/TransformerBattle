@@ -19,4 +19,6 @@
     <string name="brawl">Brawl</string>
     <string name="overall">Overall: %d</string>
 
+    <string name="error_creating_transformer">Error creating transformer</string>
+
 </resources>

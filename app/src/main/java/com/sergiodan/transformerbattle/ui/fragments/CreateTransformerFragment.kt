@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sergiodan.transformerbattle.R
@@ -68,6 +70,13 @@ class CreateTransformerFragment: DaggerFragment() {
                 }
             )
             viewModel.createTransformer(transformer)
+            viewModel.transformer.observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    findNavController().popBackStack()
+                } ?: run {
+                    Toast.makeText(requireContext(), R.string.error_creating_transformer, Toast.LENGTH_LONG).show()
+                }
+            })
         }
     }
 
