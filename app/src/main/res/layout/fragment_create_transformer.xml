@@ -51,12 +51,16 @@
             android:layout_width="@dimen/team_icon_size"
             android:layout_height="@dimen/team_icon_size"
             android:layout_weight="1"
-            android:drawableEnd="@drawable/ic_autobot" />
+            android:drawableEnd="@drawable/ic_autobot"
+            android:scaleY="0.75"
+            android:scaleX="0.75" />
         <RadioButton android:id="@+id/rb_decepticon"
             android:layout_width="@dimen/team_icon_size"
             android:layout_height="@dimen/team_icon_size"
             android:layout_weight="1"
-            android:drawableEnd="@drawable/ic_decepticon"/>
+            android:drawableEnd="@drawable/ic_decepticon"
+            android:scaleY="0.75"
+            android:scaleX="0.75" />
 
     </RadioGroup>
 

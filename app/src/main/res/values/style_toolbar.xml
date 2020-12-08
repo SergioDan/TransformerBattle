@@ -9,7 +9,7 @@
         <item name="navigationContentDescription">@null</item>
         <item name="navigationIcon">@drawable/ic_close</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_close</item>
-        <item name="tint">?attr/colorPrimary</item>
-        <item name="background">?attr/colorOnPrimary</item>
+        <item name="tint">?attr/textColor</item>
+        <item name="background">?attr/textColor</item>
     </style>
 </resources>

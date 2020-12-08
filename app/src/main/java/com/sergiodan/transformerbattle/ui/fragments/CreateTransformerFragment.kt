@@ -1,10 +1,13 @@
 package com.sergiodan.transformerbattle.ui.fragments
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.RadioButton
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sergiodan.transformerbattle.R
@@ -12,11 +15,12 @@ import com.sergiodan.transformerbattle.data.model.Transformer
 import com.sergiodan.transformerbattle.data.model.specsToTransformer
 import com.sergiodan.transformerbattle.databinding.FragmentCreateTransformerBinding
 import com.sergiodan.transformerbattle.ui.adapter.TechnicalSpecificationAdapter
+import com.sergiodan.transformerbattle.ui.getColor
 import com.sergiodan.transformerbattle.ui.viewmodel.CreateTransformerViewModel
 import com.sergiodan.transformerbattle.ui.views.TechnicalSpecification
 import dagger.android.support.DaggerFragment
-import java.util.*
 import javax.inject.Inject
+
 
 class CreateTransformerFragment: DaggerFragment() {
 
@@ -37,6 +41,16 @@ class CreateTransformerFragment: DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ContextCompat.getDrawable(requireContext(), R.drawable.ic_close)?.let { drawable ->
+            binding.toolbar.navigationIcon = DrawableCompat.wrap(drawable).also {
+                DrawableCompat.setTint(
+                    it,
+                    requireContext().getColor(arrayOf(R.attr.textColor))
+                )
+                it
+            }
+        }
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
