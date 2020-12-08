@@ -4,12 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/card_style_background">
+    android:background="@drawable/card_style_background"
+    android:padding="@dimen/secondary_margin">
 
     <ImageView android:id="@+id/iv_alliance"
         android:layout_width="@dimen/transformer_team_icon_size"
         android:layout_height="@dimen/transformer_team_icon_size"
-        android:layout_margin="@dimen/general_margin"
+        android:layout_marginEnd="@dimen/secondary_margin"
         android:contentDescription="@null"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,18 +19,29 @@
     <TextView android:id="@+id/tv_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/general_margin"
+        android:textSize="@dimen/name_main"
+        android:layout_marginStart="@dimen/tertiary_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_alliance"
         app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView android:id="@+id/tv_overall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/overall_main"
+        android:text="@string/overall"
+        android:layout_marginStart="@dimen/tertiary_margin"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        app:layout_constraintStart_toEndOf="@id/iv_alliance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/ll_specs"
         />
 
     <LinearLayout android:id="@+id/ll_specs"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginStart="@dimen/fab_title_margin"
-        android:layout_marginEnd="@dimen/fab_title_margin"
         app:layout_constraintTop_toBottomOf="@id/iv_alliance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -17,5 +17,6 @@
     <string name="build">Build</string>
 
     <string name="brawl">Brawl</string>
+    <string name="overall">Overall: %d</string>
 
 </resources>
