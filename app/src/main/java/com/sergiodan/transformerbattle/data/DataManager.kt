@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.github.ajalt.timberkt.d
 import com.github.ajalt.timberkt.e
 import com.sergiodan.transformerbattle.data.dispatcher.CoroutinesThreadProvider
+import com.sergiodan.transformerbattle.data.model.BrawlResult
 import com.sergiodan.transformerbattle.data.model.Result
 import com.sergiodan.transformerbattle.data.model.Transformer
 import com.sergiodan.transformerbattle.data.model.getOverallRating
@@ -154,7 +155,7 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
          *        list of winning one,
          *        identifier for winning team
          */
-        fun brawl(autobots: List<Transformer>, decepticons: List<Transformer>): Triple<List<Transformer>, List<Transformer>, String> {
+        fun brawl(autobots: List<Transformer>, decepticons: List<Transformer>): BrawlResult {
             val sortedAutobots = autobots.sortedByDescending { it.rank }
             val sortedDecepticons = decepticons.sortedByDescending { it.rank }
 
@@ -168,16 +169,16 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
                     val standing = sortedDecepticons.toMutableList().apply {
                         this.removeAll(defeatedDecepticons)
                     }
-                    Triple(defeated, standing.toList(), DECEPTICON_TEAM_IDENTIFIER)
+                    BrawlResult(defeated, standing.toList(), DECEPTICON_TEAM_IDENTIFIER)
                 }
                 (defeatedAutobots.size < defeatedDecepticons.size) -> {
                     val standing = sortedAutobots.toMutableList().apply {
                         this.removeAll(defeatedAutobots)
                     }
-                    Triple(defeated, standing.toList(), AUTOBOT_TEAM_IDENTIFIER)
+                    BrawlResult(defeated, standing.toList(), AUTOBOT_TEAM_IDENTIFIER)
                 }
                 else -> {
-                    Triple(defeated, listOf<Transformer>(), "")
+                    BrawlResult(defeated, listOf<Transformer>(), "")
                 }
             }
         }

@@ -3,8 +3,10 @@ package com.sergiodan.transformerbattle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.google.gson.Gson
+import com.sergiodan.transformerbattle.data.AUTOBOT_TEAM_IDENTIFIER
 import com.sergiodan.transformerbattle.data.DataManager
 import com.sergiodan.transformerbattle.data.datasources.TransformersRemoteDataSource
+import com.sergiodan.transformerbattle.data.model.BrawlResult
 import com.sergiodan.transformerbattle.data.model.MainData
 import com.sergiodan.transformerbattle.data.model.Resource
 import com.sergiodan.transformerbattle.data.services.TransformerService
@@ -59,15 +61,15 @@ class RequestViewModelTest {
         val topic = gson.fromJson(res, MainData::class.java)
         val autobots = topic.getData()?.filter { it.team == "A" } ?: listOf()
         val decepticons = topic.getData()?.filter { it.team == "D" } ?: listOf()
-        val triple = DataManager.brawl(autobots, decepticons)
+        val triple: BrawlResult = DataManager.brawl(autobots, decepticons)
 
         // Act
 //        val  actualResponse = apiHelper.getTransformers()
         // Assert
         assertEquals(response.toString().contains("200"),response.toString().contains("200"))
-        assertEquals(triple.first.map { it.name }.joinToString(","), "Megatron,Blastoff,Bumblebee")
-        assertEquals(triple.second.map { it.name }.joinToString(","), "Optimus Prime,Perceptor,Outback")
-        assertEquals(triple.third, 1)
+        assertEquals(triple.defeated.map { it.name }.joinToString(","), "Megatron,Blastoff,Bumblebee")
+        assertEquals(triple.winning.map { it.name }.joinToString(","), "Optimus Prime,Perceptor,Outback")
+        assertEquals(triple.winningTeamId, AUTOBOT_TEAM_IDENTIFIER)
     }
 
     private fun `parse mocked JSON response`(mockResponse: String): String {
