@@ -17,6 +17,7 @@
         />
 
     <TextView android:id="@+id/tv_name"
+        style="@style/Text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="@dimen/name_main"
@@ -27,6 +28,7 @@
         />
 
     <TextView android:id="@+id/tv_overall"
+        style="@style/Text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="@dimen/overall_main"
