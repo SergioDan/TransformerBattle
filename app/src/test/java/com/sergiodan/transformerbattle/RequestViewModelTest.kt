@@ -2,6 +2,8 @@ package com.sergiodan.transformerbattle
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.google.gson.Gson
+import com.sergiodan.transformerbattle.data.DataManager
 import com.sergiodan.transformerbattle.data.datasources.TransformersRemoteDataSource
 import com.sergiodan.transformerbattle.data.model.MainData
 import com.sergiodan.transformerbattle.data.model.Resource
@@ -28,14 +30,7 @@ class RequestViewModelTest {
 
     @get:Rule
     val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
-
-//    private var apiHelper: TransformersRemoteDataSource = mock(TransformersRemoteDataSource::class.java)
-
-//    @Mock
-//    private lateinit var apiEmployeeObserver: Observer<Resource<MainData>?>
-
     private lateinit var mockWebServer: MockWebServer
-
 
     @Before
     fun setUp() {
@@ -57,10 +52,22 @@ class RequestViewModelTest {
             .setResponseCode(HttpURLConnection.HTTP_OK)
             .setBody(MockResponseFileReader("success_response.json").content)
         mockWebServer.enqueue(response)
+
+        val res = response.getBody()?.readUtf8()
+//        val data = res?.let { `parse mocked JSON response`(it) }
+        val gson = Gson()
+        val topic = gson.fromJson(res, MainData::class.java)
+        val autobots = topic.getData()?.filter { it.team == "A" } ?: listOf()
+        val decepticons = topic.getData()?.filter { it.team == "D" } ?: listOf()
+        val triple = DataManager.brawl(autobots, decepticons)
+
         // Act
 //        val  actualResponse = apiHelper.getTransformers()
         // Assert
         assertEquals(response.toString().contains("200"),response.toString().contains("200"))
+        assertEquals(triple.first.size, 3)
+        assertEquals(triple.second.size, 3)
+        assertEquals(triple.third, 1)
     }
 
     private fun `parse mocked JSON response`(mockResponse: String): String {

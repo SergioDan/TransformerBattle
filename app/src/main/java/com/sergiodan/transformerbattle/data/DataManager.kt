@@ -8,12 +8,15 @@ import com.github.ajalt.timberkt.e
 import com.sergiodan.transformerbattle.data.dispatcher.CoroutinesThreadProvider
 import com.sergiodan.transformerbattle.data.model.Result
 import com.sergiodan.transformerbattle.data.model.Transformer
+import com.sergiodan.transformerbattle.data.model.getOverallRating
 import com.sergiodan.transformerbattle.data.repository.TransformersRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.abs
+import kotlin.math.min
 
 /**
  * Man-in-the-middle class for handling the requests to the external source
@@ -84,5 +87,95 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
 
     companion object {
         const val AUTH_TOKEN = "AUTH_TOKEN"
+
+        private const val AUTOBOT_NAME = "Optimus Prime"
+        private const val DECEPTICON_NAME = "Predaking"
+
+        private fun getDefeatedTransformers(sortedAutobots: List<Transformer>, sortedDecepticons: List<Transformer>): List<Transformer> {
+            val min = min(sortedAutobots.size, sortedDecepticons.size)
+            val defeated = mutableListOf<Transformer>()
+            for (i in 0 until min) {
+                val autobot = sortedAutobots[i]
+                val decepticon = sortedDecepticons[i]
+
+                val courage = autobot.courage - decepticon.courage
+                val strength = autobot.strength - decepticon.courage
+                val skill = autobot.skill - decepticon.skill
+                val overall = autobot.getOverallRating() - decepticon.getOverallRating()
+
+                var shouldBreak = false
+                when {
+                    (autobot.name.equals(AUTOBOT_NAME, true) &&
+                            decepticon.name.equals(DECEPTICON_NAME, true)) -> {
+                        shouldBreak = true
+                    }
+                    (autobot.name.equals(AUTOBOT_NAME, true)) -> {
+                        defeated.add(decepticon)
+                    }
+                    (decepticon.name.equals(DECEPTICON_NAME, true)) -> {
+                        defeated.add(autobot)
+                    }
+                    (abs(courage) >= 4 && abs(strength) >= 3)-> {
+                        val transformer = if (courage > 0 && strength > 0) {
+                            decepticon
+                        } else {
+                            autobot
+                        }
+                        defeated.add(transformer)
+                    }
+                    (abs(skill) >= 3) -> {
+                        val transformer = if (skill > 0) {
+                            decepticon
+                        } else {
+                            autobot
+                        }
+                        defeated.add(transformer)
+                    }
+                    (overall > 0) -> {
+                        defeated.add(decepticon)
+                    }
+                    else -> {
+                        defeated.add(autobot)
+                    }
+                }
+
+                if (shouldBreak) {
+                    defeated.clear()
+                    defeated.addAll(sortedAutobots)
+                    defeated.addAll(sortedDecepticons)
+                    break
+                }
+            }
+
+            return defeated
+        }
+
+        fun brawl(autobots: List<Transformer>, decepticons: List<Transformer>): Triple<List<Transformer>, List<Transformer>, Int> {
+            val sortedAutobots = autobots.sortedByDescending { it.rank }
+            val sortedDecepticons = decepticons.sortedByDescending { it.rank }
+
+            val defeated = getDefeatedTransformers(sortedAutobots, sortedDecepticons)
+
+            val defeatedAutobots = defeated.filter { it.team == "A" }
+            val defeatedDecepticons = defeated.filter { it.team == "D" }
+
+            return when {
+                (defeatedAutobots.size > defeatedDecepticons.size) -> {
+                    val standing = sortedDecepticons.toMutableList().apply {
+                        this.removeAll(defeatedDecepticons)
+                    }
+                    Triple(defeated, standing.toList(), 2)
+                }
+                (defeatedAutobots.size < defeatedDecepticons.size) -> {
+                    val standing = sortedAutobots.toMutableList().apply {
+                        this.removeAll(defeatedAutobots)
+                    }
+                    Triple(defeated, standing.toList(), 1)
+                }
+                else -> {
+                    Triple(defeated, listOf<Transformer>(), 0)
+                }
+            }
+        }
     }
 }
