@@ -86,10 +86,6 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
     }
 
     companion object {
-        const val AUTH_TOKEN = "AUTH_TOKEN"
-
-        private const val AUTOBOT_NAME = "Optimus Prime"
-        private const val DECEPTICON_NAME = "Predaking"
 
         private fun getDefeatedTransformers(sortedAutobots: List<Transformer>, sortedDecepticons: List<Transformer>): List<Transformer> {
             val min = min(sortedAutobots.size, sortedDecepticons.size)
@@ -105,14 +101,17 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
 
                 var shouldBreak = false
                 when {
-                    (autobot.name.equals(AUTOBOT_NAME, true) &&
-                            decepticon.name.equals(DECEPTICON_NAME, true)) -> {
+                    ((autobot.name.equals(AUTOBOT_NAME, true) || decepticon.name.equals(AUTOBOT_NAME, true)) &&
+                            (autobot.name.equals(DECEPTICON_NAME, true) || decepticon.name.equals(
+                                DECEPTICON_NAME, true))) -> {
                         shouldBreak = true
                     }
-                    (autobot.name.equals(AUTOBOT_NAME, true)) -> {
+                    (autobot.name.equals(AUTOBOT_NAME, true)
+                            || autobot.name.equals(DECEPTICON_NAME, true)) -> {
                         defeated.add(decepticon)
                     }
-                    (decepticon.name.equals(DECEPTICON_NAME, true)) -> {
+                    (decepticon.name.equals(DECEPTICON_NAME, true)
+                            || decepticon.name.equals(AUTOBOT_NAME, true)) -> {
                         defeated.add(autobot)
                     }
                     (abs(courage) >= 4 && abs(strength) >= 3)-> {
@@ -150,30 +149,35 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
             return defeated
         }
 
-        fun brawl(autobots: List<Transformer>, decepticons: List<Transformer>): Triple<List<Transformer>, List<Transformer>, Int> {
+        /**
+         * return list of defeated transformers,
+         *        list of winning one,
+         *        identifier for winning team
+         */
+        fun brawl(autobots: List<Transformer>, decepticons: List<Transformer>): Triple<List<Transformer>, List<Transformer>, String> {
             val sortedAutobots = autobots.sortedByDescending { it.rank }
             val sortedDecepticons = decepticons.sortedByDescending { it.rank }
 
             val defeated = getDefeatedTransformers(sortedAutobots, sortedDecepticons)
 
-            val defeatedAutobots = defeated.filter { it.team == "A" }
-            val defeatedDecepticons = defeated.filter { it.team == "D" }
+            val defeatedAutobots = defeated.filter { it.team == AUTOBOT_TEAM_IDENTIFIER }
+            val defeatedDecepticons = defeated.filter { it.team == DECEPTICON_TEAM_IDENTIFIER }
 
             return when {
                 (defeatedAutobots.size > defeatedDecepticons.size) -> {
                     val standing = sortedDecepticons.toMutableList().apply {
                         this.removeAll(defeatedDecepticons)
                     }
-                    Triple(defeated, standing.toList(), 2)
+                    Triple(defeated, standing.toList(), DECEPTICON_TEAM_IDENTIFIER)
                 }
                 (defeatedAutobots.size < defeatedDecepticons.size) -> {
                     val standing = sortedAutobots.toMutableList().apply {
                         this.removeAll(defeatedAutobots)
                     }
-                    Triple(defeated, standing.toList(), 1)
+                    Triple(defeated, standing.toList(), AUTOBOT_TEAM_IDENTIFIER)
                 }
                 else -> {
-                    Triple(defeated, listOf<Transformer>(), 0)
+                    Triple(defeated, listOf<Transformer>(), "")
                 }
             }
         }

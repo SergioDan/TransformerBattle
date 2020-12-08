@@ -65,8 +65,8 @@ class RequestViewModelTest {
 //        val  actualResponse = apiHelper.getTransformers()
         // Assert
         assertEquals(response.toString().contains("200"),response.toString().contains("200"))
-        assertEquals(triple.first.size, 3)
-        assertEquals(triple.second.size, 3)
+        assertEquals(triple.first.map { it.name }.joinToString(","), "Megatron,Blastoff,Bumblebee")
+        assertEquals(triple.second.map { it.name }.joinToString(","), "Optimus Prime,Perceptor,Outback")
         assertEquals(triple.third, 1)
     }
 
