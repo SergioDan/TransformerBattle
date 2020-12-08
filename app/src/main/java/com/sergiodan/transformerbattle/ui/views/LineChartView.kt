@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import com.sergiodan.transformerbattle.R
+import com.sergiodan.transformerbattle.ui.getColor
 
 private val paint: Paint by lazy {
     val paint = Paint()
@@ -74,9 +76,9 @@ class LineChartView(context: Context, attrs: AttributeSet) : View(context, attrs
     protected override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         createCoordinatesList()
-        canvas.drawPath(path, paint)
-        canvas.drawLine(10f, 0f, 10f, 100f, cartesianPaint)
-        canvas.drawLine(10f, 100f, (measuredWidth.toFloat()-10f), 100f, cartesianPaint)
+        canvas.drawPath(path, paint.apply { this.color = context.getColor(arrayOf(R.attr.textColor)) })
+        canvas.drawLine(10f, 0f, 10f, 100f, cartesianPaint.apply { this.color = context.getColor(arrayOf(R.attr.textColor)) })
+        canvas.drawLine(10f, 100f, (measuredWidth.toFloat()-10f), 100f, cartesianPaint.apply { this.color = context.getColor(arrayOf(R.attr.textColor)) })
         drawLabels(canvas)
     }
 
@@ -94,7 +96,7 @@ class LineChartView(context: Context, attrs: AttributeSet) : View(context, attrs
                 it.first,
                 -140f,
                 it.second,
-                textPaint
+                textPaint.apply { this.color = context.getColor(arrayOf(R.attr.textColor)) }
             )
             canvas.restore()
         }
