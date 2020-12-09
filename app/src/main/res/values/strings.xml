@@ -21,4 +21,10 @@
 
     <string name="error_creating_transformer">Error creating transformer</string>
 
+    <string name="winner_is">Winner is:</string>
+    <string name="result_description">Nº of Battles: %d
+        \nWinning team: %s
+        \nSurvivors: %s</string>
+    <string name="tap_anywhere_to_close">Tap anywhere to close</string>
+
 </resources>

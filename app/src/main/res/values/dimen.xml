@@ -19,4 +19,8 @@
     <dimen name="name_main">11sp</dimen>
     <dimen name="overall_main">9sp</dimen>
 
+    <dimen name="result_title_size">25sp</dimen>
+    <dimen name="result_tip_size">8sp</dimen>
+    <dimen name="result_team_icon_size">160dp</dimen>
+
 </resources>
