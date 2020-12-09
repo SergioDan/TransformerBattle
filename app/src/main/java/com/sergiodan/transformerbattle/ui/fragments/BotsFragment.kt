@@ -9,9 +9,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.ajalt.timberkt.d
+import com.google.gson.Gson
 import com.sergiodan.transformerbattle.R
 import com.sergiodan.transformerbattle.data.AUTOBOT_TEAM_IDENTIFIER
 import com.sergiodan.transformerbattle.data.DECEPTICON_TEAM_IDENTIFIER
+import com.sergiodan.transformerbattle.data.model.BrawlResult
 import com.sergiodan.transformerbattle.data.model.toMap
 import com.sergiodan.transformerbattle.databinding.FragmentBotsBinding
 import com.sergiodan.transformerbattle.ui.adapter.TechnicalSpecificationAdapter
@@ -20,11 +22,15 @@ import com.sergiodan.transformerbattle.ui.getColor
 import com.sergiodan.transformerbattle.ui.viewmodel.MainViewModel
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
+import kotlin.math.min
 
 class BotsFragment: DaggerFragment() {
 
     @Inject
     lateinit var mainViewModel: MainViewModel
+
+    @Inject
+    lateinit var gson: Gson
 
     private var autobotsAdapter: TransformersAdapter = TransformersAdapter(listOf())
     private var decepticonsAdapter: TransformersAdapter = TransformersAdapter(listOf())
@@ -48,9 +54,11 @@ class BotsFragment: DaggerFragment() {
             mainViewModel.brawl(autobotsAdapter.list, decepticonsAdapter.list)
             mainViewModel.brawlResult.observe(viewLifecycleOwner, Observer {
                 it?.let {
-                    Toast.makeText(requireContext(),
-                        "Winning team = ${if (it.winningTeamId == AUTOBOT_TEAM_IDENTIFIER) { "Autobots" } else if (it.winningTeamId == DECEPTICON_TEAM_IDENTIFIER) { "Decepticons" } else { "No winning team"} }",
-                        Toast.LENGTH_LONG).show()
+//                    Toast.makeText(requireContext(),
+//                        "Winning team = ${if (it.winningTeamId == AUTOBOT_TEAM_IDENTIFIER) { "Autobots" } else if (it.winningTeamId == DECEPTICON_TEAM_IDENTIFIER) { "Decepticons" } else { "No winning team"} }",
+//                        Toast.LENGTH_LONG).show()
+                    val battles = min(autobotsAdapter.list.size, decepticonsAdapter.list.size)
+                    showCompleteDialog(battles, it)
                 }
             })
         }
@@ -84,5 +92,11 @@ class BotsFragment: DaggerFragment() {
             autobotsAdapter.updateList(autobots)
             decepticonsAdapter.updateList(decepticons)
         })
+    }
+
+    private fun showCompleteDialog(battles: Int, result: BrawlResult) {
+        CompletedBattleDialog
+            .newInstance(battles, gson.toJson(result))
+            .show(this.parentFragmentManager, CompletedBattleDialog.TAG)
     }
 }

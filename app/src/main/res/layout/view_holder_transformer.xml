@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/card_style_background"
+    android:layout_marginTop="@dimen/tertiary_margin"
+    android:layout_marginBottom="@dimen/tertiary_margin"
     android:padding="@dimen/secondary_margin">
 
     <ImageView android:id="@+id/iv_alliance"

@@ -1,7 +1,5 @@
 package com.sergiodan.transformerbattle.ui.fragments
 
-import android.graphics.drawable.Animatable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -9,15 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import com.github.ajalt.timberkt.d
 import com.google.gson.Gson
 import com.sergiodan.transformerbattle.R
 import com.sergiodan.transformerbattle.data.AUTOBOT_TEAM_IDENTIFIER
 import com.sergiodan.transformerbattle.data.model.BrawlResult
 import com.sergiodan.transformerbattle.databinding.FragmentBrawlResultDialogBinding
-import java.util.*
 
 
 class CompletedBattleDialog: DialogFragment() {
@@ -51,9 +46,9 @@ class CompletedBattleDialog: DialogFragment() {
         val result: BrawlResult = Gson().fromJson(arguments?.getString(KEY_BATTLE_RESULT), BrawlResult::class.java)
 
         val anim = if (result.winningTeamId == AUTOBOT_TEAM_IDENTIFIER) {
-            R.drawable.anim_decepticno
-        } else {
             R.drawable.anim_autobot
+        } else {
+            R.drawable.anim_decepticon
         }
 
         val animatedVectorDrawableCompat =
