@@ -10,6 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.ajalt.timberkt.d
 import com.sergiodan.transformerbattle.R
+import com.sergiodan.transformerbattle.data.AUTOBOT_TEAM_IDENTIFIER
+import com.sergiodan.transformerbattle.data.DECEPTICON_TEAM_IDENTIFIER
 import com.sergiodan.transformerbattle.data.model.toMap
 import com.sergiodan.transformerbattle.databinding.FragmentBotsBinding
 import com.sergiodan.transformerbattle.ui.adapter.TechnicalSpecificationAdapter
@@ -43,7 +45,14 @@ class BotsFragment: DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
         binding.llFabBrawl.setOnClickListener {
-            Toast.makeText(requireContext(), "Implementation still in progress", Toast.LENGTH_LONG).show()
+            mainViewModel.brawl(autobotsAdapter.list, decepticonsAdapter.list)
+            mainViewModel.brawlResult.observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    Toast.makeText(requireContext(),
+                        "Winning team = ${if (it.winningTeamId == AUTOBOT_TEAM_IDENTIFIER) { "Autobots" } else if (it.winningTeamId == DECEPTICON_TEAM_IDENTIFIER) { "Decepticons" } else { "No winning team"} }",
+                        Toast.LENGTH_LONG).show()
+                }
+            })
         }
 
         binding.btCreate.setOnClickListener {

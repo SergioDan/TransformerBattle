@@ -197,8 +197,8 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
 
             val defeated = getDefeatedTransformers(sortedAutobots, sortedDecepticons)
 
-            val defeatedAutobots = defeated.filter { it.team == AUTOBOT_TEAM_IDENTIFIER }
-            val defeatedDecepticons = defeated.filter { it.team == DECEPTICON_TEAM_IDENTIFIER }
+            val defeatedAutobots = defeated.filter { it.team.equals(AUTOBOT_TEAM_IDENTIFIER, true) }
+            val defeatedDecepticons = defeated.filter { it.team.equals(DECEPTICON_TEAM_IDENTIFIER, true) }
 
             return when {
                 (defeatedAutobots.size > defeatedDecepticons.size) -> {
