@@ -13,6 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sergiodan.transformerbattle.R
+import com.sergiodan.transformerbattle.data.AUTOBOT_TEAM_IDENTIFIER
+import com.sergiodan.transformerbattle.data.DECEPTICON_TEAM_IDENTIFIER
 import com.sergiodan.transformerbattle.data.model.Transformer
 import com.sergiodan.transformerbattle.data.model.specsToTransformer
 import com.sergiodan.transformerbattle.databinding.FragmentCreateTransformerBinding
@@ -61,8 +63,8 @@ class CreateTransformerFragment: DaggerFragment() {
             val transformer = transformSpecListToClass().copy(
                 name = binding.etName.text.toString(),
                 team = when {
-                    binding.rbAutobot.isChecked -> { "A" }
-                    binding.rbDecepticon.isChecked -> { "D" }
+                    binding.rbAutobot.isChecked -> { AUTOBOT_TEAM_IDENTIFIER }
+                    binding.rbDecepticon.isChecked -> { DECEPTICON_TEAM_IDENTIFIER }
                     else -> { "" }
                 }
             )
