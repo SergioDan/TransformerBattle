@@ -1,5 +1,6 @@
 package com.sergiodan.transformerbattle.data.datasources
 
+import com.github.ajalt.timberkt.d
 import com.sergiodan.transformerbattle.data.model.Result
 import com.sergiodan.transformerbattle.data.model.Transformer
 import com.sergiodan.transformerbattle.data.model.TransformersList
@@ -68,11 +69,12 @@ class TransformersRemoteDataSource(private val service: TransformerService) {
 
     suspend fun deleteTransformer(authorizationToken: String, transformerId: String): Result<Boolean> {
         return try {
-            service.deleteTransformer(formatHeader(authorizationToken), transformerId)
+            val result = service.deleteTransformer(formatHeader(authorizationToken), transformerId)
+            d { "result ${result.body().toString()}" }
             return Result.Success(true)
         } catch (exception: Exception) {
             Result.Error(
-                IOException("Error creating the transformer", exception)
+                IOException("Error deleting the transformer", exception)
             )
         }
     }

@@ -30,7 +30,7 @@ interface TransformerService {
 
     @DELETE("/transformers/{transformerId}")
     suspend fun deleteTransformer(@Header("Authorization") authorizationToken: String,
-        @Path("transformerId") transformerId: String)
+        @Path("transformerId") transformerId: String):Response<String>
 
     @GET("/allspark")
     suspend fun requestToken(): Response<String>
