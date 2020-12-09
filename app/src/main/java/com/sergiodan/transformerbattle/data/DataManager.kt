@@ -117,7 +117,7 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
 
     suspend fun brawlRoutine(autobots: List<Transformer>, decepticons: List<Transformer>): BrawlResult {
         val brawlResult = brawl(autobots, decepticons)
-        brawlResult.defeated.forEach {
+        brawlResult.allDefeated.forEach {
             deleteTransformer(it)
         }
         return brawlResult
@@ -200,21 +200,23 @@ class DataManager @Inject constructor(private val transformerRepository: Transfo
             val defeatedAutobots = defeated.filter { it.team.equals(AUTOBOT_TEAM_IDENTIFIER, true) }
             val defeatedDecepticons = defeated.filter { it.team.equals(DECEPTICON_TEAM_IDENTIFIER, true) }
 
+            val standingDecepticons = sortedDecepticons.toMutableList().apply {
+                this.removeAll(defeatedDecepticons)
+            }
+
+            val standingAutobots = sortedAutobots.toMutableList().apply {
+                this.removeAll(defeatedAutobots)
+            }
+
             return when {
                 (defeatedAutobots.size > defeatedDecepticons.size) -> {
-                    val standing = sortedDecepticons.toMutableList().apply {
-                        this.removeAll(defeatedDecepticons)
-                    }
-                    BrawlResult(defeated, standing.toList(), DECEPTICON_TEAM_IDENTIFIER)
+                    BrawlResult(defeated,standingAutobots.toList(), standingDecepticons.toList(), DECEPTICON_TEAM_IDENTIFIER)
                 }
                 (defeatedAutobots.size < defeatedDecepticons.size) -> {
-                    val standing = sortedAutobots.toMutableList().apply {
-                        this.removeAll(defeatedAutobots)
-                    }
-                    BrawlResult(defeated, standing.toList(), AUTOBOT_TEAM_IDENTIFIER)
+                    BrawlResult(defeated,standingDecepticons.toList(), standingAutobots.toList(), AUTOBOT_TEAM_IDENTIFIER)
                 }
                 else -> {
-                    BrawlResult(defeated, listOf(), "")
+                    BrawlResult(defeated, listOf(), listOf(), "")
                 }
             }
         }
