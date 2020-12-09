@@ -22,8 +22,8 @@ class CreateTransformerViewModel @Inject internal constructor(): ViewModel() {
 
     fun createTransformer(transformer: Transformer) {
         viewModelScope.launch {
-            val transformer = dataManager.createTransformer(transformer)
-            _transformerLiveData.postValue(transformer)
+            val result = dataManager.createTransformer(transformer)
+            _transformerLiveData.postValue(result)
         }
     }
 }

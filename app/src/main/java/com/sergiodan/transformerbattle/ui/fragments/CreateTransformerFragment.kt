@@ -50,7 +50,6 @@ class CreateTransformerFragment: DaggerFragment() {
                     it,
                     requireContext().getColor(arrayOf(R.attr.textColor))
                 )
-                it
             }
         }
         binding.toolbar.setNavigationOnClickListener {
@@ -71,8 +70,6 @@ class CreateTransformerFragment: DaggerFragment() {
             viewModel.transformer.observe(viewLifecycleOwner, Observer {
                 it?.let {
                     findNavController().popBackStack()
-                } ?: run {
-                    Toast.makeText(requireContext(), R.string.error_creating_transformer, Toast.LENGTH_LONG).show()
                 }
             })
         }
