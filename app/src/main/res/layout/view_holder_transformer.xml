@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_style_background"
+    android:layout_marginTop="@dimen/tertiary_margin"
+    android:layout_marginBottom="@dimen/tertiary_margin"
+    android:padding="@dimen/secondary_margin">
+
+    <ImageView android:id="@+id/iv_alliance"
+        android:layout_width="@dimen/transformer_team_icon_size"
+        android:layout_height="@dimen/transformer_team_icon_size"
+        android:layout_marginEnd="@dimen/secondary_margin"
+        android:contentDescription="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView android:id="@+id/tv_name"
+        style="@style/Text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/name_main"
+        android:layout_marginStart="@dimen/tertiary_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_alliance"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView android:id="@+id/tv_overall"
+        style="@style/Text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/overall_main"
+        android:text="@string/overall"
+        android:layout_marginStart="@dimen/tertiary_margin"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        app:layout_constraintStart_toEndOf="@id/iv_alliance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/ll_specs"
+        />
+
+    <LinearLayout android:id="@+id/ll_specs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/tertiary_margin"
+        app:layout_constraintTop_toBottomOf="@id/iv_alliance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <com.sergiodan.transformerbattle.ui.views.LineChartView
+            android:id="@+id/lcv_chart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/chart_height" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
