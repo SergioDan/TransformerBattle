@@ -1,34 +1,28 @@
 package com.sergiodan.transformerbattle
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.sergiodan.transformerbattle.data.AUTOBOT_TEAM_IDENTIFIER
+import com.sergiodan.transformerbattle.data.DECEPTICON_TEAM_IDENTIFIER
 import com.sergiodan.transformerbattle.data.DataManager
-import com.sergiodan.transformerbattle.data.datasources.TransformersRemoteDataSource
 import com.sergiodan.transformerbattle.data.model.BrawlResult
 import com.sergiodan.transformerbattle.data.model.MainData
-import com.sergiodan.transformerbattle.data.model.Resource
-import com.sergiodan.transformerbattle.data.services.TransformerService
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.json.JSONObject
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import java.net.HttpURLConnection
 
 @RunWith(MockitoJUnitRunner::class)
-class RequestViewModelTest {
+class RequestBattleUnitTest {
 
     @get:Rule
     val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
@@ -42,39 +36,29 @@ class RequestViewModelTest {
     }
 
     @Test
-    fun `read sample success json file`(){
+    fun `read sample success json file`() {
         val reader = MockResponseFileReader("success_response.json")
         assertNotNull(reader.content)
     }
 
     @Test
-    fun `fetch details and check response Code 200 returned`(){
-        // Assign
+    fun `fetch transformers and check result of battle`() {
         val response = MockResponse()
             .setResponseCode(HttpURLConnection.HTTP_OK)
             .setBody(MockResponseFileReader("success_response.json").content)
         mockWebServer.enqueue(response)
 
         val res = response.getBody()?.readUtf8()
-//        val data = res?.let { `parse mocked JSON response`(it) }
         val gson = Gson()
         val topic = gson.fromJson(res, MainData::class.java)
-        val autobots = topic.getData()?.filter { it.team == "A" } ?: listOf()
-        val decepticons = topic.getData()?.filter { it.team == "D" } ?: listOf()
-        val triple: BrawlResult = DataManager.brawl(autobots, decepticons)
+        val autobots = topic.getData()?.filter { it.team == AUTOBOT_TEAM_IDENTIFIER } ?: listOf()
+        val decepticons = topic.getData()?.filter { it.team == DECEPTICON_TEAM_IDENTIFIER } ?: listOf()
+        val brawlResult: BrawlResult = DataManager.brawl(autobots, decepticons)
 
-        // Act
-//        val  actualResponse = apiHelper.getTransformers()
-        // Assert
         assertEquals(response.toString().contains("200"),response.toString().contains("200"))
-        assertEquals(triple.defeated.map { it.name }.joinToString(","), "Megatron,Blastoff,Bumblebee")
-        assertEquals(triple.winning.map { it.name }.joinToString(","), "Optimus Prime,Perceptor,Outback")
-        assertEquals(triple.winningTeamId, AUTOBOT_TEAM_IDENTIFIER)
-    }
-
-    private fun `parse mocked JSON response`(mockResponse: String): String {
-        val reader = JSONObject(mockResponse)
-        return reader.getString("status")
+        assertEquals(brawlResult.allDefeated.map { it.name }.joinToString(","), "Megatron,Blastoff,Bumblebee")
+        assertEquals(brawlResult.winning.map { it.name }.joinToString(","), "Optimus Prime,Perceptor,Outback")
+        assertEquals(brawlResult.winningTeamId, AUTOBOT_TEAM_IDENTIFIER)
     }
 
     @After
