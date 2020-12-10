@@ -52,6 +52,7 @@ dependencies {
     implementation "androidx.core:core-ktx:${versions.coreKtx}"
     implementation "androidx.appcompat:appcompat:${versions.appcompat}"
     implementation "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0"
 
     //testing
     testImplementation "junit:junit:${versions.junit}"

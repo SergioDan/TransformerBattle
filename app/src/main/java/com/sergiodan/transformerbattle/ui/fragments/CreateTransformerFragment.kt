@@ -20,6 +20,7 @@ import com.sergiodan.transformerbattle.data.model.specsToTransformer
 import com.sergiodan.transformerbattle.databinding.FragmentCreateTransformerBinding
 import com.sergiodan.transformerbattle.ui.adapter.TechnicalSpecificationAdapter
 import com.sergiodan.transformerbattle.ui.getColor
+import com.sergiodan.transformerbattle.ui.hideKeyboard
 import com.sergiodan.transformerbattle.ui.viewmodel.CreateTransformerViewModel
 import com.sergiodan.transformerbattle.ui.views.TechnicalSpecification
 import dagger.android.support.DaggerFragment
@@ -71,7 +72,7 @@ class CreateTransformerFragment: DaggerFragment() {
             viewModel.createTransformer(transformer)
             viewModel.transformer.observe(viewLifecycleOwner, Observer {
                 it?.let {
-                    findNavController().popBackStack()
+                    findNavController().navigateUp()
                 }
             })
         }
@@ -102,6 +103,11 @@ class CreateTransformerFragment: DaggerFragment() {
         }
 
         return specsMap.specsToTransformer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        this.hideKeyboard()
     }
 
     companion object {
